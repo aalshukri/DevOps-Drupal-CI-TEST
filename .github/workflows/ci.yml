@@ -1,7 +1,8 @@
-name: Build Project
+name: Build & Lint Project
 on: [push]
 
 jobs:
+  # Build process
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -22,3 +23,15 @@ jobs:
 
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-progress -vvv
+
+  # Linter
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-progress -vvv
+      - name: Run PHPCS with DrupalPractice on modules
+        uses: docker://hussainweb/drupalqa:php7.4
+        with:
+          args: phpcs --standard="Drupal,DrupalPractice" -n --extensions="php,module,install,theme" web/ --ignore=web/themes/*/dist/,web/themes/*/Gulpfile.js,web/themes/*/node_modules/
