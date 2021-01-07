@@ -4,7 +4,8 @@ on: [push]
 jobs:
   # Build process
   build:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         php-versions: ['7.3', '7.4']
@@ -29,8 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup PHP
+      #
+      - name: Setup PHP version for out linter process
         uses: shivammathur/setup-php@v2      
+          with:
+            php-version: '7.4'
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-progress -vvv
       - name: Run PHPCS with DrupalPractice on modules
