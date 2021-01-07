@@ -30,14 +30,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      #
       - name: Setup PHP version for out linter process
         uses: shivammathur/setup-php@v2      
         with:
           php-version: '7.4'
       - name: Install composer dependencies
         run: composer install --prefer-dist --no-progress -vvv
-      - name: Run PHPCS with DrupalPractice on modules
-        uses: docker://hussainweb/drupalqa:php7.4
-        with:
-          args: phpcs --standard="Drupal,DrupalPractice" -n --extensions="php,module,install,theme" web/ --ignore=web/themes/*/dist/,web/themes/*/Gulpfile.js,web/themes/*/node_modules/
+
+      #- name: Run PHPCS with DrupalPractice on modules
+      #  uses: docker://hussainweb/drupalqa:php7.4
+      #  with:
+      #    args: phpcs --standard="Drupal,DrupalPractice" -n --extensions="php,module,install,theme" web/ --ignore=web/themes/*/dist/,web/themes/*/Gulpfile.js,web/themes/*/node_modules/
+
+      - name Run Drupal coding standards using PHPCS
+        uses: guix77/phpcs-drupal-action@v1.0.0        
